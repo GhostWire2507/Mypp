@@ -62,9 +62,28 @@ public class ThirdPersonCamera : MonoBehaviour
         skipNextMouseDelta = true;
     }
 
+    private void OnApplicationFocus(bool hasFocus)
+    {
+        if (!hasFocus)
+        {
+            LockCursor(false);
+            return;
+        }
+
+        if (Cursor.visible)
+        {
+            LockCursor(true);
+        }
+    }
+
     private void LateUpdate()
     {
         if (target == null)
+        {
+            return;
+        }
+
+        if (!Application.isFocused)
         {
             return;
         }

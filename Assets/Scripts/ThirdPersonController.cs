@@ -67,11 +67,40 @@ public class ThirdPersonController : MonoBehaviour
         }
     }
 
+    private void OnApplicationFocus(bool hasFocus)
+    {
+        if (hasFocus)
+        {
+            return;
+        }
+
+        MoveInput = Vector2.zero;
+        PlanarSpeed = 0f;
+        StairMode = 0;
+        if (animator != null)
+        {
+            animator.SetFloat("Speed", 0f);
+            animator.SetInteger("StairMode", 0);
+        }
+    }
+
     private void Update()
     {
+        if (!Application.isFocused)
+        {
+            MoveInput = Vector2.zero;
+            if (animator != null)
+            {
+                animator.SetFloat("Speed", 0f);
+                animator.SetInteger("StairMode", 0);
+            }
+            return;
+        }
+
         Keyboard keyboard = Keyboard.current;
         if (keyboard == null)
         {
+            MoveInput = Vector2.zero;
             return;
         }
 
